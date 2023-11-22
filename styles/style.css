@@ -1,0 +1,134 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+#container {
+    width: 800px;
+    height: 900px;
+    margin: 0 auto;
+    border-radius: 30px;
+    background-color: black;
+}
+
+#scoreboard {
+    display: grid;
+    grid-template-rows: 50% 50%;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    background-color: blue;
+    border-radius: 30px 30px 0px 0px;
+}
+
+#scoreboard h1 {
+    justify-content: center;
+    display: flex;
+}
+
+#scoreboard-details {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+h1,
+h2,
+p {
+    font-family: Arial;
+    color: white;
+}
+
+#player-details {
+    color: white;
+    font-family: Arial;
+    display: flex;
+    justify-content: start;
+    grid-column: 1;
+}
+
+.scoreboard-buttons {
+    display: flex;
+    grid-column: 2;
+    justify-content: end;
+}
+
+.form-group {
+    width: 100%;
+    color: white;
+}
+
+.form-group label {
+    display: flex;
+    justify-content: center;
+}
+
+#splash-screen {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+#usernameHelp {
+    color: white;
+    display: flex;
+    justify-content: center;
+  }
+
+#username-submit-btn {
+display: flex;
+justify-content: center;
+}
+
+#game {
+    padding: 20px;
+}
+
+#mouse {
+    width: 50px;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 125px;
+}
+
+#game-page {
+    position: relative;
+}
+
+.description {
+    padding-left:40px;
+    padding-right: 40px;
+}
+
+h2 {
+    padding: 20px;
+}
+
+.scoreboard-buttons {
+    display: flex;
+    align-self: flex-end;
+    margin-right: 20px;
+    gap: 10px;
+}
+
+#start-game {
+    margin-left: 20px;
+}
+
+#play {
+    margin-left: 20px;
+}
+
+
+.small {
+    width: 6px;
+    height: 6px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+
+}
+.game-over-buttons {
+    margin-left: 20px;
+}
