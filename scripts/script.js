@@ -2,8 +2,12 @@
 
 const game = {
   isRunning: false,
+  cursorSmall: document.querySelector(".cursor"),
   currentScreen: "splash-screen",
+  basePath: "../images/Level",
+  currentPath: "../images/Level1.png",
   currentModal: null,
+  initiateModal: document.querySelector("#initiate-modal"),
   scoreBoard: document.querySelector("#scoreboard"),
   startgameButton: document.querySelector("#username-submit-btn"),
   enteredPlayerName: document.querySelector("#exampleInputUsername1"),
@@ -12,13 +16,15 @@ const game = {
   playerContainer: document.querySelector("#player-details"),
   //get game-page element from DOM
   gamePageElement: document.getElementById("game-page"),
+  closedDoor: document.getElementById("closed-door"),
+  openDoor: document.getElementById("open-door"),
   //create the canvas element that will encapsulate the maze image
   canvasElement: document.getElementById("myCanvas"),
   updatePlayerNameDOM() {
     this.playerName.textContent = player.name;
   },
   updatePlayerScoreDOM() {
-    let currentLevel = player.score
+    const currentLevel = player.score;
     this.playerScore.textContent = `Level ${currentLevel}`; // Update text content with "Level" + currentLevel
   },
   displayPlayerDetailsDOM() {
@@ -42,7 +48,12 @@ const game = {
     {
         $('#help-button').hide();
         $('#quit-header').hide();
+        $('#player-details').hide();
     }
+  },
+  switchLevel(level) {
+    game.currentPath = `${this.basePath}${level}.png`;
+    
   },
   showAppropriateModal() {
     if (game.currentScreen == "splash-screen") {
@@ -53,6 +64,45 @@ const game = {
       this.currentModal = $('#gameplay-modal')
       this.currentModal.modal.show();
     }
+  },
+  repositionDoorForLevel(level) {
+    const previousLevel = level - 1;
+    $('#closed-door').show();
+    const closedDoor = game.closedDoor;
+    const openDoor = game.openDoor;
+      switch (level) {
+        case 2:
+          closedDoor.style.bottom = "560px";
+          closedDoor.style.left = "50px";
+          openDoor.style.bottom = "560px";
+          openDoor.style.left = "50px";
+          break;
+        case 3:
+          closedDoor.style.bottom = "65px";
+          closedDoor.style.left = "720px";
+          openDoor.style.bottom = "65px";
+          openDoor.style.left = "720px";
+          break;
+        case 4:
+          closedDoor.style.bottom = "720px";
+          closedDoor.style.left = "730px";
+          openDoor.style.bottom = "720px";
+          openDoor.style.left = "730px";
+          break;
+        case 5:
+          closedDoor.style.bottom = "355px";
+          closedDoor.style.left = "100px";
+          openDoor.style.bottom = "355px";
+          openDoor.style.left = "100px";
+          break;
+        default:
+          break;
+      }
+
+  },
+  showInitiateModal() {
+    console.log("workingggg");
+    $('#initiate-modal').modal('show');
   },
   init() {
     $('h1').text("A Mazing Mouse Game")
@@ -70,20 +120,51 @@ const game = {
         name = game.enteredPlayerName.value;
         game.playerName.textContent = name;
         player.name = name;
-        console.log(player.name);
         player.updatePlayerName(name);
         game.updatePlayerScoreDOM()
         game.displayPlayerDetailsDOM();
         //switch the screen to the game screen
         game.switchScreen("game-screen");
-        // game.runGame();
+        setTimeout(function() {
+          game.showInitiateModal();
+        }, 1000);
       }
 
-      $("#mouse").on("click", (event) => {
+      $("#mouse").on("click", function() {
         game.runGame();
-        }
+        $('#mouse').hide()
+        $('#closed-door').show();
+        // game.cursorSmall.show();
+        }   
       )
 
+      $("#closed-door").on("click", function() {
+        $('#closed-door').hide();
+        $('#open-door').show();
+        setTimeout(function() {
+          if (player.score !== 5) {
+            player.score = player.score + 1;
+            game.updatePlayerScoreDOM();
+            game.switchLevel(player.score);
+            game.runGame();
+            setTimeout(function() {
+              $('#open-door').hide();
+              $('#closed-door').show();             
+            }, 500)
+            setTimeout(function() {
+              $('#closed-door').hide();
+            }, 1000)
+            setTimeout(function () {
+              game.repositionDoorForLevel(player.score);
+            }, 1000)
+            
+          }
+          else {
+            game.switchScreen("game-over-screen");
+          }
+        }, 500);
+        }  
+      )
     });
 
 
@@ -154,7 +235,7 @@ const game = {
     //screen this is because the canvas drawImage() method only takes image that
     //already exist in the DOM
     const mazeImgElement = document.createElement("img");
-    mazeImgElement.src = "./images/maze.png";
+    mazeImgElement.src = game.currentPath;
     mazeImgElement.style.width = "800px";
     mazeImgElement.setAttribute("hidden", "true");
     // game.canvasElement.setAttribute("border")
@@ -189,9 +270,12 @@ const game = {
       const x = e.x;
       const y = e.y;
       const srgbData = ctx.getImageData(x, y, 1, 1).data; 
-
-      if (srgbData[0] != 237) {
-        alert("You lost");
+console.log(x, y);
+      if (srgbData[0] != 159) {
+        // alert("You lost");
+        game.switchScreen("game-over-screen");
+        const description = document.getElementById('game-over-description');
+        description.textContent = "You lost, please try again!";
       }
 
     };

@@ -18,6 +18,8 @@
   <link rel="stylesheet" href="./styles/style.css" />
 </head>
 <body>
+    <div class="cursor small"></div>
+
     <main id="container">  
         <header id="scoreboard">
             <h1>A Mazing Mouse Game</h1>
@@ -68,6 +70,37 @@
                 </div>
             </div>
         </div>
+        <div 
+        class="modal fade"
+        id="initiate-modal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+        >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">How to start the game</h5>
+                    <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">Click on the mouse icon to load the game.<br>Once the game loads, make sure to stay on the path until you click on the door!
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="close btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                    Close
+                </button>
+                </div>
+            </div>                   
+        </div>
+    </div> 
         <div 
         class="modal fade"
         id="gameplay-modal"
@@ -125,15 +158,16 @@
                 </div> -->
                 <div id="game-page">
                     <canvas id="myCanvas" width="800" height="800">
-                        <div class="cursor small"></div>
                     </canvas>
-                    <img src="images/mouse.png" alt="start-image" id="mouse">
+                    <img src="images/mouse.png" alt="start-image" id="mouse" class = "pulsate">
+                    <img src="images/ClosedDoor.png" alt="end-goal" id="closed-door" class="door" style="display: none">
+                    <img src="images/OpenDoor.png" alt="end-goal" id="open-door" class="door" style="display: none">
                 </div>
             </div>
             <div id="game-over-screen" class="screen" style="display: none">
                 <h2>Game Over</h2>
-                <p class="description">
-                    You lose
+                <p id="game-over-description">
+                    You Win!
                 </p>
                 <div class="game-over-buttons">
                     <button class="btn btn-success">Play Again!</button>
