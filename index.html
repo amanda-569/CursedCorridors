@@ -29,13 +29,6 @@
                     <div id="level">Level</div>
                 </div>
                 <div class="scoreboard-buttons">
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        id="help-button"
-                        >
-                        Help
-                    </button>
                     <button class="btn btn-danger" id="quit-header" style="display: none">Quit</button>
                 </div>
             </div>
@@ -134,22 +127,30 @@
     </div>  
         </header>
         <div id="gameboard">
-            <div id="splash-screen" class="screen">
-                <!-- <h2>Splash</h2> -->
-                <div id="splash-screen-container">
-                <h2 class="description">
-                    Enter the Maze Realm.
-                </h2>
-                <!-- <button type="button" class ="btn btn-success" id="start-game">Start Game</button>   -->
-                <form id="username-form">
-                    <div class="form-group">
-                      <label for="exampleInputUsername1">Username</label>
-                      <input type="text" class="form-control" id="exampleInputUsername1" aria-describedby="usernameHelp" placeholder="Enter your username">
-                      <small id="usernameHelp" class="form-text">Enter your username to start the game.</small>
-                    </div>
-                    <button type="submit" class="btn btn-primary" id = "username-submit-btn">Submit</button>
-                </form>
+            <div id="splash-screen" class="screen">    
+                <div>
+                    <div id="splash-screen-container">
+                        <button
+                        id="help-button"
+                        class="neon"
+                        >
+                        Help
+                    </button>
+                        <h2 class="description game-description" id="flash">
+                            Enter the Maze Realm.
+                        </h2>
+                        <!-- <button type="button" class ="btn btn-success" id="start-game">Start Game</button>   -->
+                        <form id="username-form">
+                            <div class="form-group">
+                              <label for="exampleInputUsername1">Username</label>
+                              <input type="text" class="form-control" id="exampleInputUsername1" aria-describedby="usernameHelp" placeholder="Enter your username">
+                              <small id="usernameHelp" class="form-text">Enter your username to start the game.</small>
+                            </div>
+                            <button type="submit" class="neon" id = "username-submit-btn">Enter the Maze...</button>
+                        </form>
+                        </div>
                 </div>
+
             </div>
             <div id="game-screen" class="screen" style="display: none">
                 <!-- <div class="game-buttons">

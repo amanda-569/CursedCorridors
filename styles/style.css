@@ -43,6 +43,32 @@ p {
     color: white;
 }
 
+#flash {
+    position: relative;
+    font-size: 3em;
+    letter-spacing: 1px;
+    color: #0e3742;
+    text-transform: uppercase;
+    line-height: 0.70em;
+    outline: none;
+    animation: animate 3s linear infinite;
+}
+@keyframes animate{
+    0%, 18%, 20%, 50.1%, 60%, 65.1%, 80%, 90.1%, 92% {
+        color: #0e3742;
+        box-shadow: none;
+    }
+    18.1%, 20.1%, 30%, 50%, 60.1%, 65%, 80.1%, 90%, 92.1%, 100% {
+        color: #fff;
+        text-shadow: 0 0 10px #03bcf4,
+                    0 0 20px #03bcf4,
+                    0 0 40px #03bcf4,
+                    0 0 80px #03bcf4,
+                    0 0 160px #03bcf4;
+
+    }
+}
+
 #player-details {
     color: white;
     font-family: Arial;
@@ -58,8 +84,14 @@ p {
 }
 
 .form-group {
-    width: 100%;
+    width: 300px;
     color: white;
+}
+
+#username-form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .form-group label {
@@ -69,11 +101,15 @@ p {
 
 #splash-screen {
     display: flex;
-    justify-content: center;
-    flex-direction: row;
+    flex-direction: column;
     background-image: url("../images/Background.jpg");
     background-size: cover;
     height: 100%;
+    align-items: center;
+}
+
+.game-description {
+    margin-top: 100px;
 }
 
 #usernameHelp {
@@ -85,6 +121,7 @@ p {
 #username-submit-btn {
 display: flex;
 justify-content: center;
+width: 100px;
 }
 
 #game {
