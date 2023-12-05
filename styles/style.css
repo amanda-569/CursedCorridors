@@ -68,6 +68,7 @@ p {
     display: flex;
     justify-content: center;
     flex-direction: row;
+    margin-top: 200px;
 }
 
 #usernameHelp {

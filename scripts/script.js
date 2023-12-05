@@ -42,13 +42,14 @@ const game = {
     else if (this.currentScreen == "game-screen") 
     {
         $('#help-button').show();
-        $('#quit-header').show();
+        $('#quit-header').show(); 
     }
     else
     {
         $('#help-button').hide();
         $('#quit-header').hide();
         $('#player-details').hide();
+        $('.cursor').hide();
     }
   },
   switchLevel(level) {
@@ -134,7 +135,7 @@ const game = {
         game.runGame();
         $('#mouse').hide()
         $('#closed-door').show();
-        // game.cursorSmall.show();
+        $('.cursor').show();
         }   
       )
 
@@ -160,6 +161,9 @@ const game = {
             
           }
           else {
+            if (game.isRunning === true) {
+              game.toggleIsRunning();
+            }
             game.switchScreen("game-over-screen");
           }
         }, 500);
