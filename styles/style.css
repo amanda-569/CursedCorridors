@@ -4,6 +4,55 @@
     box-sizing: border-box;
 }
 
+.neon {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 2px solid #03bcf4;
+    color: #03bcf4;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    
+    text-shadow: 
+    0 0 0.125em hsl(0 0% 100% / 0.5),
+    0 0 0.125em #03bcf4;
+    box-shadow: inset 0 0 0.5em 0 #03bcf4, 0 0 0.5em 0 #03bcf4;
+    /* position: relative; */
+}
+
+@keyframes glowing {
+    0% { text-shadow: 0 0 10px #03bcf4; }
+    50% { text-shadow: 0 0 20px #03bcf4; }
+    100% { text-shadow: 0 0 10px #03bcf4; }
+}
+
+.neon::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 0 2em 0.5em #03bcf4;
+    opacity: 0;
+    background-color: #03bcf4;
+    z-index: -1;
+    transition: opacity 100ms linear;
+}
+
+.neon:hover {
+    background-color: #03bcf4;
+    color: black;
+    text-shadow: none;
+
+    /* animation: glowing 1s infinite; */
+}
+
+.neon:hover::after {
+    opacity: 1;
+}
 
 #container {
     width: 800px;
@@ -19,8 +68,7 @@
     align-items: center;
     width: 100%;
     height: 100px;
-    background-color: blue;
-    border-radius: 30px 30px 0px 0px;
+    background-color: white;
 }
 
 #scoreboard h1 {
@@ -43,7 +91,7 @@ p {
     color: white;
 }
 
-#flash {
+.flash {
     position: relative;
     font-size: 3em;
     letter-spacing: 1px;
@@ -69,6 +117,9 @@ p {
     }
 }
 
+#splash-statement {
+    font-size: 25px;
+}
 #player-details {
     color: white;
     font-family: Arial;
@@ -108,8 +159,21 @@ p {
     align-items: center;
 }
 
+#splash-screen-container {
+    width: 100%;
+}
+
+#title-heading {
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    line-height: 50px;
+}
+
 .game-description {
-    margin-top: 100px;
+    /* margin-top: 50px; */
+    /* how to center */
+    margin-left: 80px;
 }
 
 #usernameHelp {
@@ -133,7 +197,7 @@ width: 100px;
         transform: scale(1);
     }
     50% {
-        transform: scale(1.1);
+        transform: scale(1.4);
     }
     100% {
         transform: scale(1);
@@ -143,7 +207,7 @@ width: 100px;
 .pulsate {
     animation: pulse 1.5s infinite; 
 }
-#mouse {
+#orb {
     width: 50px;
     position: absolute;
     z-index: 2;

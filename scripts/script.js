@@ -106,7 +106,7 @@ const game = {
     $('#initiate-modal').modal('show');
   },
   init() {
-    $('h1').text("A Mazing Mouse Game")
+    $('h1').text("Cursed Corridors: The Abandoned Maze")
     $("#start-game").on("click", () => {
       game.switchScreen("game-screen");
     });
@@ -131,9 +131,9 @@ const game = {
         }, 1000);
       }
 
-      $("#mouse").on("click", function() {
+      $("#orb").on("click", function() {
         game.runGame();
-        $('#mouse').hide()
+        $('#orb').hide()
         $('#closed-door').show();
         $('.cursor').show();
         }   
