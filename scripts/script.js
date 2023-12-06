@@ -37,17 +37,17 @@ const game = {
     if (this.currentScreen == "splash-screen") 
     {
       $('#help-button').show();
-      $('#quit-header').hide();
+      // $('#quit-header').hide();
     }
     else if (this.currentScreen == "game-screen") 
     {
         $('#help-button').show();
-        $('#quit-header').show(); 
+        $('#player-details').show();
     }
     else
     {
         $('#help-button').hide();
-        $('#quit-header').hide();
+        $('body').css('cursor', 'auto');
         $('#player-details').hide();
         $('.cursor').hide();
     }
@@ -73,28 +73,28 @@ const game = {
     const openDoor = game.openDoor;
       switch (level) {
         case 2:
-          closedDoor.style.bottom = "560px";
+          closedDoor.style.bottom = "580px";
           closedDoor.style.left = "50px";
-          openDoor.style.bottom = "560px";
+          openDoor.style.bottom = "580px";
           openDoor.style.left = "50px";
           break;
         case 3:
-          closedDoor.style.bottom = "65px";
-          closedDoor.style.left = "720px";
-          openDoor.style.bottom = "65px";
-          openDoor.style.left = "720px";
+          closedDoor.style.bottom = "90px";
+          closedDoor.style.left = "715px";
+          openDoor.style.bottom = "90px";
+          openDoor.style.left = "715px";
           break;
         case 4:
-          closedDoor.style.bottom = "720px";
-          closedDoor.style.left = "730px";
-          openDoor.style.bottom = "720px";
-          openDoor.style.left = "730px";
+          closedDoor.style.bottom = "710px";
+          closedDoor.style.left = "735px";
+          openDoor.style.bottom = "710px";
+          openDoor.style.left = "735px";
           break;
         case 5:
-          closedDoor.style.bottom = "355px";
-          closedDoor.style.left = "100px";
-          openDoor.style.bottom = "355px";
-          openDoor.style.left = "100px";
+          closedDoor.style.bottom = "260px";
+          closedDoor.style.left = "300px";
+          openDoor.style.bottom = "260px";
+          openDoor.style.left = "300px";
           break;
         default:
           break;
@@ -136,6 +136,7 @@ const game = {
         $('#orb').hide()
         $('#closed-door').show();
         $('.cursor').show();
+        $('body').css('cursor', 'none');
         }   
       )
 
@@ -180,13 +181,13 @@ const game = {
       }
     });
 
-    $("#quit-header").on("click", (event) => {
-      game.switchScreen("splash-screen")
-      if (game.isRunning === true) {
-        game.toggleIsRunning();
-        this.playerContainer.style.display = "none";
-      }
-    });
+    // $("#quit-header").on("click", (event) => {
+    //   game.switchScreen("splash-screen")
+    //   if (game.isRunning === true) {
+    //     game.toggleIsRunning();
+    //     this.playerContainer.style.display = "none";
+    //   }
+    // });
 
     $("#play-again").on("click", (event) => {
       game.switchScreen("game-screen")
@@ -274,12 +275,12 @@ const game = {
       const x = e.x;
       const y = e.y;
       const srgbData = ctx.getImageData(x, y, 1, 1).data; 
-console.log(x, y);
+// console.log(x, y);
       if (srgbData[0] != 159) {
         // alert("You lost");
         game.switchScreen("game-over-screen");
         const description = document.getElementById('game-over-description');
-        description.textContent = "You lost, please try again!";
+        description.textContent = "You lost, please try again";
       }
 
     };

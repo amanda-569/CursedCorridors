@@ -56,9 +56,8 @@
 
 #container {
     width: 800px;
-    height: 900px;
+    height: 800px;
     margin: 0 auto;
-    border-radius: 30px;
     background-color: black;
 }
 
@@ -68,7 +67,7 @@
     align-items: center;
     width: 100%;
     height: 100px;
-    background-color: white;
+    background-color: blue;
 }
 
 #scoreboard h1 {
@@ -79,6 +78,8 @@
 #scoreboard-details {
     display: grid;
     grid-template-columns: 50% 50%;
+    position: absolute;
+    z-index: 2;
 }
 
 #gameboard {
@@ -120,12 +121,24 @@ p {
 #splash-statement {
     font-size: 25px;
 }
+
+.game-over-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#game-over-description {
+    font-size: 25px;
+}
 #player-details {
     color: white;
-    font-family: Arial;
-    display: flex;
-    justify-content: start;
-    grid-column: 1;
+    height: 70px;
+    position: absolute;
+    z-index: 2;
+    bottom: 735px;
+    left: 0px;
+    width: 200px;
 }
 
 .scoreboard-buttons {
@@ -159,21 +172,28 @@ p {
     align-items: center;
 }
 
+#game-over-screen {
+    display: flex;
+    flex-direction: column;
+    background-image: url("../images/Background.jpg");
+    background-size: cover;
+    height: 100%;
+    align-items: center;
+}
+
 #splash-screen-container {
     width: 100%;
 }
 
 #title-heading {
     padding: 50px;
-    display: flex;
-    justify-content: center;
     line-height: 50px;
+    text-align: center;
 }
 
 .game-description {
     /* margin-top: 50px; */
-    /* how to center */
-    margin-left: 80px;
+    text-align: center;
 }
 
 #usernameHelp {
@@ -186,6 +206,7 @@ p {
 display: flex;
 justify-content: center;
 width: 100px;
+margin-top: 25px;
 }
 
 #game {
@@ -207,6 +228,7 @@ width: 100px;
 .pulsate {
     animation: pulse 1.5s infinite; 
 }
+
 #orb {
     width: 50px;
     position: absolute;
@@ -221,7 +243,7 @@ width: 100px;
     position: absolute;
     z-index: 2;
     bottom: 2px;
-    left: 240px;
+    left: 260px;
     cursor: pointer;
 }
 
@@ -270,6 +292,6 @@ h2 {
     margin-left: 20px;
 }
 
-#myCanvas {
+/* #myCanvas {
     cursor: none;
-}
+} */

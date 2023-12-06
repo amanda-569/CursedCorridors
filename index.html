@@ -21,17 +21,7 @@
     <div class="cursor small" style="display: none"></div>
 
     <main id="container">  
-        <header id="scoreboard" >
-            
-            <div id="scoreboard-details">
-                <div id="player-details" style="display: none">
-                    <div id="player-name"></div>
-                    <div id="level">Level</div>
-                </div>
-                <div class="scoreboard-buttons">
-                    <button class="btn btn-danger" id="quit-header" style="display: none">Quit</button>
-                </div>
-            </div>
+        <header>
             <div 
                 class="modal fade"
                 id="setup-modal"
@@ -144,7 +134,7 @@
                             <div class="form-group">
                               <label for="exampleInputUsername1"></label>
                               <input type="text" class="form-control" id="exampleInputUsername1" aria-describedby="usernameHelp" placeholder="                        Username">
-                              <small id="usernameHelp" class="form-text">Enter your username to start the game.</small>
+                              <small id="usernameHelp" class="form-text"></small>
                             </div>
                             <button type="submit" class="neon" id = "username-submit-btn">ENTER THE MAZE...</button>
                         </form>
@@ -159,19 +149,25 @@
                 <div id="game-page">
                     <canvas id="myCanvas" width="800" height="800">
                     </canvas>
+                    <div id="scoreboard-details">
+                        <div id="player-details">
+                            <div id="player-name"></div>
+                            <div id="level">Level</div>
+                        </div>
+                    </div>
                     <img src="images/orb.png" alt="start-image" id="orb" class = "pulsate">
                     <img src="images/ClosedDoor.png" alt="end-goal" id="closed-door" class="door" style="display: none">
                     <img src="images/OpenDoor.png" alt="end-goal" id="open-door" class="door" style="display: none">
                 </div>
             </div>
             <div id="game-over-screen" class="screen" style="display: none">
-                <h2>Game Over</h2>
-                <p id="game-over-description">
+                <h2 class="flash" id="title-heading">Game Over</h2>
+                <p id="game-over-description" class="flash">
                     You Win!
                 </p>
                 <div class="game-over-buttons">
-                    <button class="btn btn-success">Play Again!</button>
-                    <button class="btn btn-danger" id="quit">Quit</button>
+                    <button class="neon">PLAY AGAIN</button>
+                    <button class="neon" id="quit">QUIT</button>
                 </div>
             </div>
         </div>
