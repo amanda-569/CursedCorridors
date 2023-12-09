@@ -40,7 +40,7 @@
                         aria-label="Close"
                         ></button>
                     </div>
-                    <div class="modal-body">Enter your name, select level difficulty, click play</div>
+                    <div class="modal-body">Enter your name and click "Enter the Maze..."</div>
                     <div class="modal-footer">
                         <button
                         type="button"
@@ -77,6 +77,7 @@
                         type="button"
                         class="close btn btn-secondary"
                         data-bs-dismiss="modal"
+                        id = "game-help-close"
                     >
                     Close
                 </button>
@@ -102,7 +103,7 @@
                     aria-label="Close"
                     ></button>
                 </div>
-                <div class="modal-body">Use your mouse cursor to navigate through the maze.<br>Avoid touching the walls.<br>Reach the end point.</div>
+                <div class="modal-body">Use your mouse cursor to navigate through the maze.<br>Avoid touching the walls.<br>Click on the door to complete the level.</div>
                 <div class="modal-footer">
                     <button
                         type="button"
@@ -129,23 +130,18 @@
                         <h2 class="description game-description flash" class="flash" id="splash-statement">
                             Enter the Maze Realm.
                         </h2>
-                        <!-- <button type="button" class ="btn btn-success" id="start-game">Start Game</button>   -->
                         <form id="username-form">
                             <div class="form-group">
                               <label for="exampleInputUsername1"></label>
                               <input type="text" class="form-control" id="exampleInputUsername1" aria-describedby="usernameHelp" placeholder="                        Username">
                               <small id="usernameHelp" class="form-text"></small>
                             </div>
-                            <button type="submit" class="neon" id = "username-submit-btn">ENTER THE MAZE...</button>
+                            <button type="submit" class="neon" id ="username-submit-btn">ENTER THE MAZE...</button>
                         </form>
                         </div>
 
             </div>
             <div id="game-screen" class="screen" style="display: none">
-                <!-- <div class="game-buttons">
-                    <button class="btn bi-play btn-success" id="play"></button>
-                    <button class="btn btn-warning" id="end-game">End Game</button>
-                </div> -->
                 <div id="game-page">
                     <canvas id="myCanvas" width="800" height="800">
                     </canvas>
@@ -160,13 +156,14 @@
                     <img src="images/OpenDoor.png" alt="end-goal" id="open-door" class="door" style="display: none">
                 </div>
             </div>
-            <div id="game-over-screen" class="screen" style="display: none">
-                <h2 class="flash" id="title-heading">Game Over</h2>
+            <img id="canvas-img"/>
+            <div id="game-over-screen" class="screen you-win-screen" style="display: none">
+                <h2 class="flash" id="game-over-title-heading">Game Over</h2>
                 <p id="game-over-description" class="flash">
-                    You Win!
+                    Congratulations
                 </p>
                 <div class="game-over-buttons">
-                    <button class="neon">PLAY AGAIN</button>
+                    <button class="neon" id="restart-level">RESTART LEVEL</button>
                     <button class="neon" id="quit">QUIT</button>
                 </div>
             </div>

@@ -130,15 +130,19 @@ p {
 
 #game-over-description {
     font-size: 25px;
+    text-align: center;
 }
 #player-details {
     color: white;
-    height: 70px;
+    height: 60px;
     position: absolute;
     z-index: 2;
-    bottom: 735px;
-    left: 0px;
-    width: 200px;
+    bottom: 750px;
+    width: 800px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #03bcf4;
+    font-weight: bold;
 }
 
 .scoreboard-buttons {
@@ -175,7 +179,7 @@ p {
 #game-over-screen {
     display: flex;
     flex-direction: column;
-    background-image: url("../images/Background.jpg");
+    background-image: url("../images/GameOver.jpg");
     background-size: cover;
     height: 100%;
     align-items: center;
@@ -233,7 +237,7 @@ margin-top: 25px;
     width: 50px;
     position: absolute;
     z-index: 2;
-    top: 0;
+    bottom: 750px;
     left: 135px;
     cursor: pointer;
 }
@@ -254,6 +258,7 @@ margin-top: 25px;
 #game-over-description {
     padding-left:40px;
     padding-right: 40px;
+    line-height: 50px;
 }
 
 h2 {
@@ -291,7 +296,3 @@ h2 {
 .game-over-buttons {
     margin-left: 20px;
 }
-
-/* #myCanvas {
-    cursor: none;
-} */
