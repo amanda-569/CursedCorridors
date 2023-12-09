@@ -43,7 +43,7 @@ const game = {
     }
     else if (this.currentScreen == "game-screen") 
     {
-        $('#help-button').show();
+        // $('#help-button').show();
         $('#player-details').show();
     }
     else
@@ -88,7 +88,6 @@ const game = {
     openDoor.style.left = levelPositions[level].end.left;
   },
   showInitiateModal() {
-    console.log("workingggg");
     $('#initiate-modal').modal('show');
   },
   clearCanvas() {
@@ -114,6 +113,9 @@ const game = {
       game.clearInputField();
       game.currentPath ="../images/Level1.png";
       game.repositionDoorForLevel(1);
+      game.repositionOrbForLevel(1);
+      $('#closed-door').hide();
+
     }
     else {
       game.repositionOrbForLevel(player.score);
@@ -191,21 +193,15 @@ const game = {
             game.toggleIsRunning();
           }
           game.switchScreen("game-over-screen");
-          const gameOverScreen = document.getElementById("game-over-screen");
-          gameOverScreen.style.backgroundImage = 'url("../images/Freedom.jpg")';
+          const gameOverScreen = $("#game-over-screen");
+          gameOverScreen.css("background-image", 'url("../images/Freedom.jpg")');
           $('#game-over-title-heading').text('You Win');
           $('#game-over-description').text('Congratulations');
+          $('#restart-level').hide();
+
         }
       }, 500);
       })
-
-    // $("#end-game").on("click", (event) => {
-    //   game.switchScreen("game-over-screen")
-    //   if (game.isRunning === true) {
-    //     game.toggleIsRunning();
-    //     this.playerContainer.style.display = "none";
-    //   }
-    // });
 
     $("#restart-level").on("click", (event) => {
       game.resetGame(false);
@@ -216,14 +212,7 @@ const game = {
     });
 
     $("#help-button").on("click", (event) => {
-      //If on the Splash screen, the Help button should open the Setup Instructions modal.
-      if (game.currentScreen === "splash-screen") {
-          $("#setup-modal").modal('show');
-      }
-      //If on the Game screen, the Help button should open up the Gameplay Instructions modal.
-      else {
-          $("#gameplay-modal").modal('show');
-      }  
+      $("#setup-modal").modal('show');
     });
 
     $(".close").on("click", (event) => {
@@ -239,11 +228,9 @@ const game = {
   toggleIsRunning() {
         if (this.isRunning == false) {
             this.isRunning = true;
-            // $("#container").addClass("active");
         }
         else {
             this.isRunning = false;
-            // $("#container").removeClass("active");
         }
     },
   runGame() {
@@ -289,13 +276,14 @@ const game = {
 // console.log(x, y);
       if (srgbData[0] != 159 && game.isRunning === true) {
         game.switchScreen("game-over-screen");
-        const description = document.getElementById('game-over-description');
+        $('#game-over-title-heading').text("Game Over");
+        $('#restart-level').show();
         const finalScore = player.score - 1;
         if (finalScore > 0) {
-          description.innerHTML = `You lost, please try again<br>Last level completed: Level ${finalScore}`;
+          $('#game-over-description').html(`You lost, please try again<br>Last level completed: Level ${finalScore}`);
         }
         else {
-          description.innerHTML = `You lost<br>please try again`;
+          $('#game-over-description').html(`You lost<br>please try again`);
         }       
       }
 
@@ -358,34 +346,9 @@ class Position {
 
 
 let levelPositions = {
-  1 : {"start": new Position("0px", "135px"), "end": new Position("2px", "260px")},
+  1 : {"start": new Position("750px", "135px"), "end": new Position("2px", "260px")},
   2 : {"start": new Position("2px", "260px"), "end": new Position("580px", "50px")},
   3 : {"start": new Position("580px", "50px"), "end": new Position("90px", "715px")},
   4 : {"start": new Position("90px", "715px"), "end": new Position("710px", "735px")},
   5 : {"start": new Position("710px", "735px"), "end": new Position("260px", "300px")},
 }
-
-
-// case 2:
-//   closedDoor.style.bottom = "580px";
-//   closedDoor.style.left = "50px";
-//   openDoor.style.bottom = "580px";
-//   openDoor.style.left = "50px";
-//   break;
-// case 3:
-//   closedDoor.style.bottom = "90px";
-//   closedDoor.style.left = "715px";
-//   openDoor.style.bottom = "90px";
-//   openDoor.style.left = "715px";
-//   break;
-// case 4:
-//   closedDoor.style.bottom = "710px";
-//   closedDoor.style.left = "735px";
-//   openDoor.style.bottom = "710px";
-//   openDoor.style.left = "735px";
-//   break;
-// case 5:
-//   closedDoor.style.bottom = "260px";
-//   closedDoor.style.left = "300px";
-//   openDoor.style.bottom = "260px";
-//   openDoor.style.left = "300px";
