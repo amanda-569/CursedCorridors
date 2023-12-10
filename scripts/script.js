@@ -20,6 +20,11 @@ const game = {
   canvasImage: document.getElementById("canvas-img"),
   //create the canvas element that will encapsulate the maze image
   canvasElement: document.getElementById("myCanvas"),
+  splashAudio: document.getElementById("background-audio"),
+  doorAudio: document.getElementById("door-audio"),
+  loseAudio: document.getElementById("lose-audio"),
+  startAudio: document.getElementById("start-audio"),
+  winAudio: document.getElementById("win-audio"),
   gameHelpClose: false,
   updatePlayerNameDOM() {
     this.playerName.textContent = player.name;
@@ -33,22 +38,24 @@ const game = {
   },
   switchScreen(screen) {
     this.currentScreen = screen;
-    $('.screen').hide();
+    $(".screen").hide();
     $(`#${this.currentScreen}`).show();
     if (this.currentScreen == "splash-screen") 
     {
-      $('#help-button').show();
+      $("#help-button").show();
+      game.splashAudio.play();
     }
     else if (this.currentScreen == "game-screen") 
     {
-        $('#player-details').show();
+      game.splashAudio.pause();
+        $("#player-details").show();
     }
     else
     {
-        $('#help-button').hide();
-        $('body').css('cursor', 'auto');
-        $('#player-details').hide();
-        $('.cursor').hide();
+        $("#help-button").hide();
+        $("body").css("cursor", "auto");
+        $("#player-details").hide();
+        $(".cursor").hide();
     }
   },
   switchLevel(level) {
@@ -56,18 +63,18 @@ const game = {
   },
 
   clearInputField() {
-    const inputField = document.getElementById('exampleInputUsername1');
+    const inputField = document.getElementById("exampleInputUsername1");
     if (inputField) {
-      inputField.value = '';
+      inputField.value = "";
     }
   },
   showAppropriateModal() {
     if (game.currentScreen == "splash-screen") {
-      this.currentModal = $('setup-modal')
+      this.currentModal = $("setup-modal")
       this.currentModal.modal.show();
     }
     else {
-      this.currentModal = $('#gameplay-modal')
+      this.currentModal = $("#gameplay-modal")
       this.currentModal.modal.show();
     }
   },
@@ -77,7 +84,7 @@ const game = {
     orb.style.left = levelPositions[level].start.left;
   },
   repositionDoorForLevel(level) {
-    $('#closed-door').show();
+    $("#closed-door").show();
     const closedDoor = game.closedDoor;
     const openDoor = game.openDoor;
     closedDoor.style.bottom = levelPositions[level].end.bottom;
@@ -86,22 +93,23 @@ const game = {
     openDoor.style.left = levelPositions[level].end.left;
   },
   showInitiateModal() {
-    $('#initiate-modal').modal('show');
+    $("#initiate-modal").modal("show");
   },
   clearCanvas() {
-    const context = game.canvasElement.getContext('2d');
+    const context = game.canvasElement.getContext("2d");
     context.clearRect(0, 0, game.canvasElement.width, game.canvasElement.height);
   },
   resetGame(isQuit) {
-    $('.cursor').hide();
-    $('body').css('cursor', 'auto');
+    game.winAudio.pause();
+    $(".cursor").hide();
+    $("body").css("cursor", "auto");
     game.clearCanvas();
-    $('#closed-door').hide();
-    $('#open-door').hide();
+    $("#closed-door").hide();
+    $("#open-door").hide();
     game.isRunning = false;
 
     if (isQuit === true) {
-      $('#orb').show();
+      $("#orb").show();
       game.switchScreen("splash-screen");
       let name = "";
       game.updateAndDisplayPlayerDetails(name);
@@ -114,34 +122,36 @@ const game = {
       game.currentPath ="../images/Level1.png";
       game.repositionDoorForLevel(1);
       game.repositionOrbForLevel(1);
-      $('#closed-door').hide();
+      $("#closed-door").hide();
     }
     else {
       game.repositionOrbForLevel(player.score);
-      $('#orb').show();
+      $("#orb").show();
       game.switchScreen("game-screen")
-      $('#closed-door').hide();
+      $("#closed-door").hide();
       game.currentPath = game.basePath + player.score + ".png"; 
     }
   },
   gameOver() {
+    game.loseAudio.play();
     game.switchScreen("game-over-screen");
     game.isRunning = false;
-    $('#game-over-title-heading').text("Game Over");
-    $('#restart-level').show();
+    $("#game-over-title-heading").text("Game Over");
+    $("#restart-level").show();
     const gameOverScreen = $("#game-over-screen");
-    gameOverScreen.css("background-image", 'url("../images/GameOver.jpg")');
+    gameOverScreen.css("background-image", "url('../images/GameOver.jpg')");
     const finalScore = player.score - 1;
     if (finalScore > 0) {
-      $('#game-over-description').html(`You lost, please try again<br>Last level completed: Level ${finalScore}`);
+      $("#game-over-description").html(`You lost, please try again<br>Last level completed: Level ${finalScore}`);
     }
     else {
-      $('#game-over-description').html(`You lost<br>please try again`);
+      $("#game-over-description").html(`You lost<br>please try again`);
     }
   },
   triggerNewLevel() {
-    $('#closed-door').hide();
-    $('#open-door').show();
+    game.doorAudio.play();
+    $("#closed-door").hide();
+    $("#open-door").show();
     setTimeout(function() {
       if (player.score !== 5) {
         player.score = player.score + 1;
@@ -149,11 +159,11 @@ const game = {
         game.switchLevel(player.score);
         game.runGame();
         setTimeout(function() {
-          $('#open-door').hide();
-          $('#closed-door').show();             
+          $("#open-door").hide();
+          $("#closed-door").show();             
         }, 500)
         setTimeout(function() {
-          $('#closed-door').hide();
+          $("#closed-door").hide();
         }, 1000)
         setTimeout(function () {
           game.repositionDoorForLevel(player.score);
@@ -165,10 +175,11 @@ const game = {
         }
         game.switchScreen("game-over-screen");
         const gameOverScreen = $("#game-over-screen");
-        gameOverScreen.css("background-image", 'url("../images/Freedom.jpg")');
-        $('#game-over-title-heading').text('You Win');
-        $('#game-over-description').text('Congratulations');
-        $('#restart-level').hide();
+        game.winAudio.play();
+        gameOverScreen.css("background-image", "url('../images/Freedom.jpg')");
+        $("#game-over-title-heading").text("You Win");
+        $("#game-over-description").text("Congratulations");
+        $("#restart-level").hide();
       }
     }, 500);
   },
@@ -178,7 +189,11 @@ const game = {
     game.displayPlayerDetailsDOM();
   },
   init() {
+    $("#splash-screen").on("mouseover", (event) => {
+      game.splashAudio.play();
+    });   
     $("#username-submit-btn").on("click", (event) => {
+      game.startAudio.play();
       let name = game.enteredPlayerName.value.trim();
       if (name) {
         event.preventDefault();
@@ -197,10 +212,10 @@ const game = {
     $("#orb").on("click", function() {
       if (game.gameHelpClose === true) {
         game.runGame();
-        $('#orb').hide()
-        $('#closed-door').show();
-        $('.cursor').show();
-        $('body').css('cursor', 'none');
+        $("#orb").hide()
+        $("#closed-door").show();
+        $(".cursor").show();
+        $("body").css("cursor", "none");
       }
     });
 
@@ -222,7 +237,7 @@ const game = {
     });
 
     $("#help-button").on("click", (event) => {
-      $("#setup-modal").modal('show');
+      $("#setup-modal").modal("show");
     });
 
     $("#player-details").on("mouseover", (event) => {
@@ -232,11 +247,11 @@ const game = {
     });
     $(".close").on("click", (event) => {
       if (game.currentScreen === "splash-screen") {
-          $("#setup-modal").modal('hide');
+          $("#setup-modal").modal("hide");
       }
       //If on the Game screen, the Help button should open up the Gameplay Instructions modal.
       else {
-          $("#gameplay-modal").modal('hide');
+          $("#gameplay-modal").modal("hide");
       } 
     });
       },
@@ -300,7 +315,7 @@ const game = {
     };
   }
 // const gamePageElement = document.getElementById("game-page");
-const cursorSmall = document.querySelector('.small');
+const cursorSmall = document.querySelector(".small");
 
 const positionElement = (e)=> {
   //account for possible scroll down action
@@ -310,7 +325,7 @@ const positionElement = (e)=> {
   cursorSmall.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
 }
 
-window.addEventListener('mousemove', positionElement)
+window.addEventListener("mousemove", positionElement)
 
 // const canvasElement = document.createElement("canvas");
 

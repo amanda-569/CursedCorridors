@@ -4,6 +4,26 @@
     box-sizing: border-box;
 }
 
+#background-audio {
+    display: none;
+}
+
+#door-audio {
+    display: none;
+}
+
+#lose-audio {
+    display: none;
+}
+
+#start-audio {
+    display: none;
+}
+
+#win-audio {
+    display: none;
+}
+
 .neon {
     padding: 8px 16px;
     font-size: 16px;
