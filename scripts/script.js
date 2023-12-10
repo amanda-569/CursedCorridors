@@ -8,8 +8,6 @@ const game = {
   currentPath: "../images/Level1.png",
   currentModal: null,
   initiateModal: document.querySelector("#initiate-modal"),
-  scoreBoard: document.querySelector("#scoreboard"),
-  startgameButton: document.querySelector("#username-submit-btn"),
   enteredPlayerName: document.querySelector("#exampleInputUsername1"),
   playerName: document.querySelector("#player-name"),
   playerScore: document.querySelector("#level"),
@@ -43,7 +41,6 @@ const game = {
     }
     else if (this.currentScreen == "game-screen") 
     {
-        // $('#help-button').show();
         $('#player-details').show();
     }
     else
@@ -57,6 +54,7 @@ const game = {
   switchLevel(level) {
     game.currentPath = `${this.basePath}${level}.png`;   
   },
+
   clearInputField() {
     const inputField = document.getElementById('exampleInputUsername1');
     if (inputField) {
@@ -105,7 +103,9 @@ const game = {
     if (isQuit === true) {
       $('#orb').show();
       game.switchScreen("splash-screen");
-      player.name = "";
+      let name = "";
+      game.updateAndDisplayPlayerDetails(name);
+      // player.name = "";
       player.score = 1;
       game.updatePlayerNameDOM();
       game.updatePlayerScoreDOM();
@@ -115,8 +115,6 @@ const game = {
       game.repositionDoorForLevel(1);
       game.repositionOrbForLevel(1);
       $('#closed-door').hide();
-
-
     }
     else {
       game.repositionOrbForLevel(player.score);
@@ -128,6 +126,7 @@ const game = {
   },
   gameOver() {
     game.switchScreen("game-over-screen");
+    game.isRunning = false;
     $('#game-over-title-heading').text("Game Over");
     $('#restart-level').show();
     const gameOverScreen = $("#game-over-screen");
@@ -140,12 +139,45 @@ const game = {
       $('#game-over-description').html(`You lost<br>please try again`);
     }
   },
+  triggerNewLevel() {
+    $('#closed-door').hide();
+    $('#open-door').show();
+    setTimeout(function() {
+      if (player.score !== 5) {
+        player.score = player.score + 1;
+        game.updatePlayerScoreDOM();
+        game.switchLevel(player.score);
+        game.runGame();
+        setTimeout(function() {
+          $('#open-door').hide();
+          $('#closed-door').show();             
+        }, 500)
+        setTimeout(function() {
+          $('#closed-door').hide();
+        }, 1000)
+        setTimeout(function () {
+          game.repositionDoorForLevel(player.score);
+        }, 1000)        
+      }
+      else {
+        if (game.isRunning === true) {
+          game.isRunning = false;
+        }
+        game.switchScreen("game-over-screen");
+        const gameOverScreen = $("#game-over-screen");
+        gameOverScreen.css("background-image", 'url("../images/Freedom.jpg")');
+        $('#game-over-title-heading').text('You Win');
+        $('#game-over-description').text('Congratulations');
+        $('#restart-level').hide();
+      }
+    }, 500);
+  },
+  updateAndDisplayPlayerDetails(name) {
+    player.updatePlayerName(name);
+    game.updatePlayerScoreDOM()
+    game.displayPlayerDetailsDOM();
+  },
   init() {
-    $('h1').text("Cursed Corridors: The Abandoned Maze")
-    $("#start-game").on("click", () => {
-      game.switchScreen("game-screen");
-    });
-
     $("#username-submit-btn").on("click", (event) => {
       let name = game.enteredPlayerName.value.trim();
       if (name) {
@@ -153,10 +185,7 @@ const game = {
         //store the player name in the scoreboard
         name = game.enteredPlayerName.value.trim();
         game.playerName.textContent = name;
-        player.name = name;
-        player.updatePlayerName(name);
-        game.updatePlayerScoreDOM()
-        game.displayPlayerDetailsDOM();
+        game.updateAndDisplayPlayerDetails(name);
         //switch the screen to the game screen
         game.switchScreen("game-screen");
         setTimeout(function() {
@@ -175,49 +204,13 @@ const game = {
       }
     });
 
-    // $("#game-help-close").on("click", function() {
-    //   game.gameHelpClose = true;
-    // });
-
     $("#initiate-modal").on("hide.bs.modal", function() {
       game.gameHelpClose = true;
     });
 
     $("#closed-door").on("click", function(event) {
       event.preventDefault();
-      $('#closed-door').hide();
-      $('#open-door').show();
-      setTimeout(function() {
-        if (player.score !== 5) {
-          player.score = player.score + 1;
-          game.updatePlayerScoreDOM();
-          game.switchLevel(player.score);
-          game.runGame();
-          setTimeout(function() {
-            $('#open-door').hide();
-            $('#closed-door').show();             
-          }, 500)
-          setTimeout(function() {
-            $('#closed-door').hide();
-          }, 1000)
-          setTimeout(function () {
-            game.repositionDoorForLevel(player.score);
-          }, 1000)
-          
-        }
-        else {
-          if (game.isRunning === true) {
-            game.toggleIsRunning();
-          }
-          game.switchScreen("game-over-screen");
-          const gameOverScreen = $("#game-over-screen");
-          gameOverScreen.css("background-image", 'url("../images/Freedom.jpg")');
-          $('#game-over-title-heading').text('You Win');
-          $('#game-over-description').text('Congratulations');
-          $('#restart-level').hide();
-
-        }
-      }, 500);
+      game.triggerNewLevel();
       })
 
     $("#restart-level").on("click", (event) => {
@@ -231,7 +224,6 @@ const game = {
     $("#help-button").on("click", (event) => {
       $("#setup-modal").modal('show');
     });
-
 
     $("#player-details").on("mouseover", (event) => {
       if (game.isRunning === true) {
@@ -248,14 +240,7 @@ const game = {
       } 
     });
       },
-  toggleIsRunning() {
-        if (this.isRunning == false) {
-            this.isRunning = true;
-        }
-        else {
-            this.isRunning = false;
-        }
-    },
+
   runGame() {
     //create maze image element, add it under game-page element but hide it on
     //screen this is because the canvas drawImage() method only takes image that
@@ -278,27 +263,18 @@ const game = {
       //set up event listener to get cursor position when it hovers over canvas
       game.canvasElement.addEventListener("mousemove", (e) => {
         const pos = getMousePos(game.canvasElement, e);
-        logRGB(pos, ctx);
+        trackMouse(pos, ctx);
       });
     };
-
-    //remember to add canvas to DOM as well
-
     //callback function for mouseover the maze
-    let logRGB = (e, ctx) => {
-
+    let trackMouse = (e, ctx) => {
       const x = e.x;
       const y = e.y;
-      console.log("x: " + x + " y:" + y);
-      console.log("left: " + game.canvasElement.left + " top:" + game.canvasElement.top);
-
       const srgbData = ctx.getImageData(x, y, 1, 1).data;
       if (srgbData[0] != 159 && game.isRunning === true) {    
         game.gameOver();  
-      }
-
-    };
-      }
+      }};
+    }
   }
 
   $(game.init);
@@ -327,6 +303,7 @@ const game = {
 const cursorSmall = document.querySelector('.small');
 
 const positionElement = (e)=> {
+  //account for possible scroll down action
   const mouseY = e.clientY + $(window).scrollTop();
   const mouseX = e.clientX;
 
