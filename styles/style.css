@@ -133,13 +133,11 @@ p {
     text-align: center;
 }
 #player-details {
-    color: white;
-    height: 60px;
+    height: 40px;
     position: absolute;
     z-index: 2;
-    bottom: 750px;
-    width: 800px;
-    text-align: center;
+    bottom: 770px;
+    width: 130px;
     text-transform: uppercase;
     color: #03bcf4;
     font-weight: bold;
@@ -234,11 +232,11 @@ margin-top: 25px;
 }
 
 #orb {
-    width: 50px;
+    width: 40px;
     position: absolute;
     z-index: 2;
     bottom: 750px;
-    left: 135px;
+    left: 165px;
     cursor: pointer;
 }
 
