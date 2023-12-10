@@ -31,13 +31,13 @@
                 class="modal fade"
                 id="setup-modal"
                 tabindex="-1"
-                aria-labelledby="exampleModalLabel"
+                aria-labelledby="setup-modal-label"
                 aria-hidden="true"
                 >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Setup Instructions</h5>
+                        <h5 class="modal-title" id="setup-modal-label">Setup Instructions</h5>
                         <button
                         type="button"
                         class="btn-close"
@@ -48,44 +48,44 @@
                     <div class="modal-body">Enter your name and click "Enter the Maze..."</div>
                     <div class="modal-footer">
                         <button
-                        type="button"
-                        class="close btn btn-secondary"
-                        data-bs-dismiss="modal"
-                        >
-                        Close
-                    </button>
+                            type="button"
+                            class="close btn btn-secondary"
+                            data-bs-dismiss="modal"
+                            >
+                            Close
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
         <div 
-        class="modal fade"
-        id="initiate-modal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
+            class="modal fade"
+            id="initiate-modal"
+            tabindex="-1"
+            aria-labelledby="initiate-modal-label"
+            aria-hidden="true"
         >
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">How to start the game</h5>
+                    <h5 class="modal-title" id="initiate-modal-label">How to start the game</h5>
                     <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
                     ></button>
                 </div>
-                <div class="modal-body">Click on the glowing orb to load the game.<br>Once the game loads, make sure to stay on the path until you click on the door!
+                <div class="modal-body">Click on the glowing orb to load the game.<br>Once the game loads, make sure to stay on the path until you click on the door!</div>
                 <div class="modal-footer">
                     <button
                         type="button"
                         class="close btn btn-secondary"
                         data-bs-dismiss="modal"
                         id = "game-help-close"
-                    >
-                    Close
-                </button>
+                        >
+                        Close
+                    </button>
                 </div>
             </div>                   
         </div>
@@ -94,13 +94,13 @@
         class="modal fade"
         id="gameplay-modal"
         tabindex="-1"
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby="gameplay-modal-label"
         aria-hidden="true"
         >
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Gameplay Instructions</h5>
+                    <h5 class="modal-title" id="gameplay-modal-label">Gameplay Instructions</h5>
                     <button
                     type="button"
                     class="btn-close"
@@ -132,7 +132,7 @@
                         Help
                     </button>
                         <h1 class="flash" id="title-heading">Cursed Corridors: The Abandoned Maze</h1>
-                        <h2 class="description game-description flash" class="flash" id="splash-statement">
+                        <h2 class="description game-description flash" id="splash-statement">
                             Enter the Maze Realm.
                         </h2>
                         <form id="username-form">
@@ -161,7 +161,7 @@
                     <img src="images/OpenDoor.png" alt="end-goal" id="open-door" class="door" style="display: none">
                 </div>
             </div>
-            <img id="canvas-img"/>
+            <img id="canvas-img" src ="" alt="Current Maze Path" style="display: none" width="800" height="800"/>
             <div id="game-over-screen" class="screen you-win-screen" style="display: none">
                 <h2 class="flash" id="game-over-title-heading">Game Over</h2>
                 <p id="game-over-description" class="flash">

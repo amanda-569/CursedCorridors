@@ -1,5 +1,4 @@
 "use strict";
-
 const game = {
   isRunning: false,
   cursorSmall: document.querySelector(".cursor"),
@@ -7,18 +6,16 @@ const game = {
   basePath: "../images/Level",
   currentPath: "../images/Level1.png",
   currentModal: null,
-  initiateModal: document.querySelector("#initiate-modal"),
-  enteredPlayerName: document.querySelector("#exampleInputUsername1"),
-  playerName: document.querySelector("#player-name"),
-  playerScore: document.querySelector("#level"),
-  playerContainer: document.querySelector("#player-details"),
-  //get game-page element from DOM
+  initiateModal: document.getElementById("initiate-modal"),
+  enteredPlayerName: document.getElementById("exampleInputUsername1"),
+  playerName: document.getElementById("player-name"),
+  playerScore: document.getElementById("level"),
+  playerContainer: document.getElementById("player-details"),
   gamePageElement: document.getElementById("game-page"),
   closedDoor: document.getElementById("closed-door"),
   openDoor: document.getElementById("open-door"),
   orb: document.getElementById("orb"),
   canvasImage: document.getElementById("canvas-img"),
-  //create the canvas element that will encapsulate the maze image
   canvasElement: document.getElementById("myCanvas"),
   splashAudio: document.getElementById("background-audio"),
   doorAudio: document.getElementById("door-audio"),
@@ -31,7 +28,8 @@ const game = {
   },
   updatePlayerScoreDOM() {
     const currentLevel = player.score;
-    this.playerScore.textContent = `Level ${currentLevel}`; // Update text content with "Level" + currentLevel
+    // Update text content with "Level" + currentLevel
+    this.playerScore.textContent = `Level ${currentLevel}`; 
   },
   displayPlayerDetailsDOM() {
     this.playerContainer.style.display = "block";
@@ -39,27 +37,30 @@ const game = {
   switchScreen(screen) {
     this.currentScreen = screen;
     $(".screen").hide();
-    $(`#${this.currentScreen}`).show();
-    if (this.currentScreen == "splash-screen") 
-    {
-      $("#help-button").show();
-      game.splashAudio.play();
-    }
-    else if (this.currentScreen == "game-screen") 
-    {
-      game.splashAudio.pause();
-        $("#player-details").show();
-    }
-    else
-    {
+  
+    switch (this.currentScreen) {
+      case "splash-screen":
+        $(`#${this.currentScreen}`).show();
+        $("#help-button").show();
+        game.splashAudio.play();
+        game.gameHelpClose = false;
+        break;
+      case "game-screen":
+        $(`#${this.currentScreen}`).show();
+        game.splashAudio.pause();
+        $(game.playerContainer).show();
+        break;
+      default:
+        $(`#${this.currentScreen}`).show();
         $("#help-button").hide();
         $("body").css("cursor", "auto");
-        $("#player-details").hide();
-        $(".cursor").hide();
+        $(game.playerContainer).hide();
+        $(game.cursorSmall).hide();
+        break;
     }
   },
-  switchLevel(level) {
-    game.currentPath = `${this.basePath}${level}.png`;   
+  changeImage(level) {
+    game.currentPath = `${this.basePath}${level}.png`;
   },
 
   clearInputField() {
@@ -70,11 +71,10 @@ const game = {
   },
   showAppropriateModal() {
     if (game.currentScreen == "splash-screen") {
-      this.currentModal = $("setup-modal")
+      this.currentModal = $("setup-modal");
       this.currentModal.modal.show();
-    }
-    else {
-      this.currentModal = $("#gameplay-modal")
+    } else {
+      this.currentModal = $("#gameplay-modal");
       this.currentModal.modal.show();
     }
   },
@@ -84,11 +84,10 @@ const game = {
     orb.style.left = levelPositions[level].start.left;
   },
   repositionDoorForLevel(level) {
-    $("#closed-door").show();
     const closedDoor = game.closedDoor;
     const openDoor = game.openDoor;
     closedDoor.style.bottom = levelPositions[level].end.bottom;
-    closedDoor.style.left =  levelPositions[level].end.left;
+    closedDoor.style.left = levelPositions[level].end.left;
     openDoor.style.bottom = levelPositions[level].end.bottom;
     openDoor.style.left = levelPositions[level].end.left;
   },
@@ -97,11 +96,16 @@ const game = {
   },
   clearCanvas() {
     const context = game.canvasElement.getContext("2d");
-    context.clearRect(0, 0, game.canvasElement.width, game.canvasElement.height);
+    context.clearRect(
+      0,
+      0,
+      game.canvasElement.width,
+      game.canvasElement.height
+    );
   },
   resetGame(isQuit) {
     game.winAudio.pause();
-    $(".cursor").hide();
+    $(game.cursorSmall).hide();
     $("body").css("cursor", "auto");
     game.clearCanvas();
     $("#closed-door").hide();
@@ -113,23 +117,19 @@ const game = {
       game.switchScreen("splash-screen");
       let name = "";
       game.updateAndDisplayPlayerDetails(name);
-      // player.name = "";
       player.score = 1;
       game.updatePlayerNameDOM();
       game.updatePlayerScoreDOM();
       game.displayPlayerDetailsDOM();
       game.clearInputField();
-      game.currentPath ="../images/Level1.png";
+      game.currentPath = "../images/Level1.png";
       game.repositionDoorForLevel(1);
       game.repositionOrbForLevel(1);
-      $("#closed-door").hide();
-    }
-    else {
+    } else {
       game.repositionOrbForLevel(player.score);
       $("#orb").show();
-      game.switchScreen("game-screen")
-      $("#closed-door").hide();
-      game.currentPath = game.basePath + player.score + ".png"; 
+      game.switchScreen("game-screen");
+      game.currentPath = game.basePath + player.score + ".png";
     }
   },
   gameOver() {
@@ -142,37 +142,15 @@ const game = {
     gameOverScreen.css("background-image", "url('../images/GameOver.jpg')");
     const finalScore = player.score - 1;
     if (finalScore > 0) {
-      $("#game-over-description").html(`You lost, please try again<br>Last level completed: Level ${finalScore}`);
-    }
-    else {
+      $("#game-over-description").html(
+        `You lost, please try again<br>Last level completed: Level ${finalScore}`
+      );
+    } else {
       $("#game-over-description").html(`You lost<br>please try again`);
     }
   },
-  triggerNewLevel() {
-    game.doorAudio.play();
-    $("#closed-door").hide();
-    $("#open-door").show();
-    setTimeout(function() {
-      if (player.score !== 5) {
-        player.score = player.score + 1;
-        game.updatePlayerScoreDOM();
-        game.switchLevel(player.score);
-        game.runGame();
-        setTimeout(function() {
-          $("#open-door").hide();
-          $("#closed-door").show();             
-        }, 500)
-        setTimeout(function() {
-          $("#closed-door").hide();
-        }, 1000)
-        setTimeout(function () {
-          game.repositionDoorForLevel(player.score);
-        }, 1000)        
-      }
-      else {
-        if (game.isRunning === true) {
-          game.isRunning = false;
-        }
+  gameWon() {
+    game.isRunning = false;
         game.switchScreen("game-over-screen");
         const gameOverScreen = $("#game-over-screen");
         game.winAudio.play();
@@ -180,53 +158,71 @@ const game = {
         $("#game-over-title-heading").text("You Win");
         $("#game-over-description").text("Congratulations");
         $("#restart-level").hide();
+  },
+  triggerNewLevel() {
+    game.doorAudio.play();
+    $("#closed-door").hide();
+    $("#open-door").show();
+    setTimeout(function () {
+      if (player.score !== 5) {
+        player.updatePlayerScore();
+        game.changeImage(player.score);
+        game.runGame();
+        setTimeout(function () {
+          $("#open-door").hide();
+          $("#closed-door").show();
+        }, 500);
+        setTimeout(function () {
+          game.repositionDoorForLevel(player.score);
+        }, 1000);
+      } else {
+        game.gameWon();
       }
     }, 500);
   },
   updateAndDisplayPlayerDetails(name) {
     player.updatePlayerName(name);
-    game.updatePlayerScoreDOM()
+    game.updatePlayerScoreDOM();
     game.displayPlayerDetailsDOM();
   },
   init() {
     $("#splash-screen").on("mouseover", (event) => {
       game.splashAudio.play();
-    });   
+    });
     $("#username-submit-btn").on("click", (event) => {
       game.startAudio.play();
       let name = game.enteredPlayerName.value.trim();
       if (name) {
         event.preventDefault();
         //store the player name in the scoreboard
-        name = game.enteredPlayerName.value.trim();
         game.playerName.textContent = name;
         game.updateAndDisplayPlayerDetails(name);
         //switch the screen to the game screen
         game.switchScreen("game-screen");
-        setTimeout(function() {
+        setTimeout(function () {
           game.showInitiateModal();
         }, 1000);
       }
     });
 
-    $("#orb").on("click", function() {
+    $("#orb").on("click", function () {
       if (game.gameHelpClose === true) {
         game.runGame();
-        $("#orb").hide()
+        $("#orb").hide();
         $("#closed-door").show();
         $(".cursor").show();
         $("body").css("cursor", "none");
       }
     });
 
-    $("#initiate-modal").on("hide.bs.modal", function() {
+    $("#initiate-modal").on("hide.bs.modal", function () {
       game.gameHelpClose = true;
     });
 
-    $("#closed-door").on("click", function(event) {
+    $("#closed-door").on("click", function (event) {
       event.preventDefault();
       game.triggerNewLevel();
-      })
+    });
 
     $("#restart-level").on("click", (event) => {
       game.resetGame(false);
@@ -245,17 +241,7 @@ const game = {
         game.gameOver();
       }
     });
-    $(".close").on("click", (event) => {
-      if (game.currentScreen === "splash-screen") {
-          $("#setup-modal").modal("hide");
-      }
-      //If on the Game screen, the Help button should open up the Gameplay Instructions modal.
-      else {
-          $("#gameplay-modal").modal("hide");
-      } 
-    });
-      },
-
+  },
   runGame() {
     //create maze image element, add it under game-page element but hide it on
     //screen this is because the canvas drawImage() method only takes image that
@@ -263,14 +249,7 @@ const game = {
     game.isRunning = true;
     const mazeImgElement = game.canvasImage;
     mazeImgElement.src = game.currentPath;
-    mazeImgElement.style.width = "800px";
-    mazeImgElement.setAttribute("hidden", "true");
-    // game.gamePageElement.appendChild(mazeImgElement);
-
-    //when the maze image element has been loaded into DOM,
-    //draw this image elment within it
     mazeImgElement.onload = () => {
-
       //context (ctx) is what we use to draw everything. images, lines, shapes, etc.
       const ctx = game.canvasElement.getContext("2d");
       ctx.drawImage(mazeImgElement, 0, 0);
@@ -286,58 +265,50 @@ const game = {
       const x = e.x;
       const y = e.y;
       const srgbData = ctx.getImageData(x, y, 1, 1).data;
-      if (srgbData[0] != 159 && game.isRunning === true) {    
-        game.gameOver();  
-      }};
-    }
-  }
-
-  $(game.init);
-
-  const player = {
-    name: "",
-    score: 1,
-    updatePlayerName(name) {
-      player.name = name;
-      game.updatePlayerNameDOM();
-    },
-    updatePlayerScore() {
-      player.score = player.score + 1;
-      game.updatePlayerScoreDOM();
-    }
-  }
-
-  function getMousePos(canvas, evt) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-      x: evt.clientX - rect.left,
-      y: evt.clientY - rect.top
+      const safeColour = 159;
+      //if the cursor isn't on the safe colour, then game over
+      if (srgbData[0] != safeColour && game.isRunning === true) {
+        game.gameOver();
+      }
     };
-  }
-// const gamePageElement = document.getElementById("game-page");
+  },
+};
+
+$(game.init);
+
+const player = {
+  name: "",
+  score: 1,
+  updatePlayerName(name) {
+    player.name = name;
+    game.updatePlayerNameDOM();
+  },
+  updatePlayerScore() {
+    player.score = player.score + 1;
+    game.updatePlayerScoreDOM();
+  },
+};
+
+function getMousePos(canvas, evt) {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: evt.clientX - rect.left,
+    y: evt.clientY - rect.top,
+  };
+}
+
+//access the css small property of the custom mouse cursor
 const cursorSmall = document.querySelector(".small");
 
-const positionElement = (e)=> {
+const positionElement = (e) => {
   //account for possible scroll down action
   const mouseY = e.clientY + $(window).scrollTop();
   const mouseX = e.clientX;
 
   cursorSmall.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-}
+};
 
-window.addEventListener("mousemove", positionElement)
-
-// const canvasElement = document.createElement("canvas");
-
-
-
-
-
-
-
-
-
-
+window.addEventListener("mousemove", positionElement);
 
 class Position {
   constructor(bottom, left) {
@@ -346,11 +317,25 @@ class Position {
   }
 }
 
-
 let levelPositions = {
-  1 : {"start": new Position("750px", "165px"), "end": new Position("2px", "260px")},
-  2 : {"start": new Position("15px", "260px"), "end": new Position("580px", "50px")},
-  3 : {"start": new Position("580px", "50px"), "end": new Position("90px", "715px")},
-  4 : {"start": new Position("90px", "715px"), "end": new Position("710px", "735px")},
-  5 : {"start": new Position("710px", "735px"), "end": new Position("260px", "300px")},
-}
+  1: {
+    start: new Position("750px", "165px"),
+    end: new Position("2px", "260px"),
+  },
+  2: {
+    start: new Position("15px", "260px"),
+    end: new Position("580px", "50px"),
+  },
+  3: {
+    start: new Position("580px", "50px"),
+    end: new Position("90px", "715px"),
+  },
+  4: {
+    start: new Position("90px", "715px"),
+    end: new Position("710px", "735px"),
+  },
+  5: {
+    start: new Position("710px", "735px"),
+    end: new Position("260px", "300px"),
+  },
+};
