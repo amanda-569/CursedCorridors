@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+body {
+    background: black;
+}
+
 #background-audio {
     display: none;
 }
